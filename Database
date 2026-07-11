@@ -1,0 +1,154 @@
+-- 1. NGƯỜI DÙNG
+CREATE TABLE Users (
+    UserId          UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    Email           NVARCHAR(255) NOT NULL UNIQUE,
+    PhoneNumber     NVARCHAR(20)  NULL UNIQUE,
+    PasswordHash    NVARCHAR(255) NULL,          -- NULL nếu đăng nhập bằng Google
+    GoogleId        NVARCHAR(255) NULL UNIQUE,
+    Status          NVARCHAR(20)  NOT NULL DEFAULT 'pending'
+                    CHECK (Status IN ('pending','active','locked','deleted')),
+    EmailVerified   BIT NOT NULL DEFAULT 0,
+    StudentEmail    NVARCHAR(255) NULL,           -- email trường (.edu) để xác minh sinh viên
+    StudentVerified BIT NOT NULL DEFAULT 0,
+    IsOnline        BIT NOT NULL DEFAULT 0,
+    LastActiveAt    DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
+    CreatedAt       DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
+);
+
+-- 2. HỒ SƠ CÁ NHÂN (gộp thông tin cơ bản + học vấn + tính cách/lối sống)
+CREATE TABLE UserProfiles (
+    UserId              UNIQUEIDENTIFIER PRIMARY KEY
+                        REFERENCES Users(UserId) ON DELETE CASCADE,
+    FullName            NVARCHAR(100) NOT NULL,
+    Nickname            NVARCHAR(50)  NULL,
+    Gender              NVARCHAR(20)  NULL CHECK (Gender IN ('male','female','other')),
+    DateOfBirth         DATE NOT NULL,
+    HeightCm            SMALLINT NULL,
+    WeightKg            SMALLINT NULL,
+    Religion            NVARCHAR(50)  NULL,
+    Hometown            NVARCHAR(100) NULL,
+    CurrentLocation     NVARCHAR(100) NULL,
+    MaritalStatus       NVARCHAR(30)  NULL
+                        CHECK (MaritalStatus IN ('single','in_relationship','divorced','other')),
+    EducationLevel      NVARCHAR(50)  NULL,       -- Đang học / Cử nhân / Thạc sĩ...
+    SchoolName          NVARCHAR(150) NULL,
+    Major               NVARCHAR(150) NULL,
+    Occupation          NVARCHAR(150) NULL,
+    Hobbies             NVARCHAR(MAX) NULL,       -- lưu dạng JSON array: ["đọc sách","du lịch"]
+    PersonalityTraits   NVARCHAR(MAX) NULL,       -- lưu dạng JSON array
+    Bio                 NVARCHAR(MAX) NULL,
+    UpdatedAt           DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
+);
+
+-- 3. ẢNH HỒ SƠ
+CREATE TABLE UserPhotos (
+    PhotoId             UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    UserId              UNIQUEIDENTIFIER NOT NULL
+                        REFERENCES Users(UserId) ON DELETE CASCADE,
+    PhotoUrl            NVARCHAR(500) NOT NULL,
+    IsAvatar            BIT NOT NULL DEFAULT 0,
+    ModerationStatus    NVARCHAR(20) NOT NULL DEFAULT 'pending'
+                        CHECK (ModerationStatus IN ('pending','approved','rejected')),
+    DisplayOrder        SMALLINT NOT NULL DEFAULT 0,
+    UploadedAt          DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
+);
+
+-- 4. BỘ LỌC TÌM KIẾM
+CREATE TABLE SearchPreferences (
+    UserId                  UNIQUEIDENTIFIER PRIMARY KEY
+                            REFERENCES Users(UserId) ON DELETE CASCADE,
+    AgeMin                  SMALLINT NULL,
+    AgeMax                  SMALLINT NULL,
+    PreferredGender         NVARCHAR(20)  NULL,
+    PreferredLocation       NVARCHAR(100) NULL,
+    HeightMinCm             SMALLINT NULL,
+    HeightMaxCm             SMALLINT NULL,
+    PreferredEducation      NVARCHAR(50)  NULL,
+    MaxDistanceKm           SMALLINT NOT NULL DEFAULT 50
+);
+
+-- 5. TƯƠNG TÁC (LIKE / DISLIKE / SUPER LIKE)
+CREATE TABLE Interactions (
+    InteractionId       UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    SenderId            UNIQUEIDENTIFIER NOT NULL REFERENCES Users(UserId) ON DELETE NO ACTION,
+    ReceiverId          UNIQUEIDENTIFIER NOT NULL REFERENCES Users(UserId) ON DELETE NO ACTION,
+    InteractionType     NVARCHAR(20) NOT NULL CHECK (InteractionType IN ('like','dislike','super_like')),
+    CreatedAt           DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
+    CONSTRAINT UQ_Interaction UNIQUE (SenderId, ReceiverId)
+);
+
+-- 6. GHÉP ĐÔI (MATCH)
+CREATE TABLE Matches (
+    MatchId              UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    User1Id              UNIQUEIDENTIFIER NOT NULL REFERENCES Users(UserId) ON DELETE NO ACTION,
+    User2Id              UNIQUEIDENTIFIER NOT NULL REFERENCES Users(UserId) ON DELETE NO ACTION,
+    MatchedAt            DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
+    Status               NVARCHAR(20) NOT NULL DEFAULT 'active' CHECK (Status IN ('active','unmatched')),
+    CompatibilityScore   DECIMAL(5,2) NULL,
+    CONSTRAINT CK_MatchUsersDifferent CHECK (User1Id <> User2Id),
+    CONSTRAINT UQ_Match UNIQUE (User1Id, User2Id)
+);
+
+-- 7. TIN NHẮN (gắn trực tiếp vào MatchId, không cần bảng Conversations)
+CREATE TABLE Messages (
+    MessageId            UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    MatchId              UNIQUEIDENTIFIER NOT NULL REFERENCES Matches(MatchId) ON DELETE CASCADE,
+    SenderId             UNIQUEIDENTIFIER NOT NULL REFERENCES Users(UserId) ON DELETE NO ACTION,
+    ContentType          NVARCHAR(20) NOT NULL DEFAULT 'text'
+                        CHECK (ContentType IN ('text','emoji','sticker','image')),
+    Content              NVARCHAR(MAX) NULL,       -- nội dung text hoặc URL media
+    IsRead               BIT NOT NULL DEFAULT 0,
+    SentAt               DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
+);
+
+-- 8. BÁO CÁO VI PHẠM
+CREATE TABLE Reports (
+    ReportId             UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    ReporterId           UNIQUEIDENTIFIER NOT NULL REFERENCES Users(UserId) ON DELETE NO ACTION,
+    ReportedUserId       UNIQUEIDENTIFIER NOT NULL REFERENCES Users(UserId) ON DELETE NO ACTION,
+    Reason               NVARCHAR(50) NOT NULL
+                        CHECK (Reason IN ('fake_profile','harassment','spam','inappropriate_content','other')),
+    Description          NVARCHAR(MAX) NULL,
+    Status               NVARCHAR(20) NOT NULL DEFAULT 'pending'
+                        CHECK (Status IN ('pending','reviewing','resolved','dismissed')),
+    CreatedAt            DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
+);
+
+=-- 9. CHẶN NGƯỜI DÙNG
+CREATE TABLE UserBlocks (
+    BlockId              UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    UserId               UNIQUEIDENTIFIER NOT NULL REFERENCES Users(UserId) ON DELETE NO ACTION,
+    BlockedUserId        UNIQUEIDENTIFIER NOT NULL REFERENCES Users(UserId) ON DELETE NO ACTION,
+    CreatedAt            DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
+    CONSTRAINT CK_BlockUsersDifferent CHECK (UserId <> BlockedUserId),
+    CONSTRAINT UQ_Block UNIQUE (UserId, BlockedUserId)
+);
+
+-- 10. THÔNG BÁO
+CREATE TABLE Notifications (
+    NotificationId       UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    UserId               UNIQUEIDENTIFIER NOT NULL REFERENCES Users(UserId) ON DELETE CASCADE,
+    Type                 NVARCHAR(30) NOT NULL
+                        CHECK (Type IN ('new_match','new_message','like_received','report_update','system')),
+    Content              NVARCHAR(MAX) NOT NULL,
+    IsRead               BIT NOT NULL DEFAULT 0,
+    CreatedAt            DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
+);
+
+-- 11. INDEX PHỤC VỤ HIỆU NĂNG
+CREATE INDEX IX_Profiles_Location ON UserProfiles(CurrentLocation);
+CREATE INDEX IX_Profiles_DOB ON UserProfiles(DateOfBirth);
+CREATE INDEX IX_SearchPref_Gender ON SearchPreferences(PreferredGender);
+CREATE INDEX IX_Interactions_Receiver ON Interactions(ReceiverId, InteractionType);
+CREATE INDEX IX_Matches_User1 ON Matches(User1Id);
+CREATE INDEX IX_Matches_User2 ON Matches(User2Id);
+CREATE INDEX IX_Messages_Match_Time ON Messages(MatchId, SentAt DESC);
+CREATE INDEX IX_Notifications_User_Unread ON Notifications(UserId, IsRead);
+
+-- GHI CHÚ BẢO MẬT (áp dụng ở tầng ứng dụng)
+-- - PasswordHash: băm bằng bcrypt/argon2 trước khi lưu, không lưu plaintext
+-- - JWT token: không lưu trong DB, xử lý stateless ở tầng ứng dụng
+--   (nếu cần thu hồi token, dùng cache Redis với TTL)
+-- - OTP: nên lưu tạm ở Redis/cache với TTL thay vì bảng DB vĩnh viễn
+-- - Toàn bộ kết nối tới SQL Server nên bật Encrypt=True (SSL/TLS)
+-- - Áp dụng rate limiting tại tầng API Gateway, không ở tầng DB
