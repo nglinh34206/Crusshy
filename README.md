@@ -4,8 +4,6 @@
 
 Website hẹn hò trực tuyến, giúp người dùng tạo hồ sơ cá nhân, tìm kiếm và được gợi ý những đối tượng phù hợp dựa trên sở thích, tiêu chí cá nhân và thuật toán matching. Sau khi hai bên "match" với nhau, người dùng có thể nhắn tin, trò chuyện và kết nối trực tiếp trên nền tảng.
 
-> Dự án hiện đang trong giai đoạn lên ý tưởng, chưa triển khai code.
-
 ## 🛠 Công nghệ dự kiến
 
 - **Frontend:** HTML, CSS, JavaScript
