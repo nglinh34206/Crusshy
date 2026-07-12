@@ -1,4 +1,4 @@
--- 1. NGƯỜI DÙNG
+1. NGƯỜI DÙNG
 CREATE TABLE Users (
     UserId          UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
     Email           NVARCHAR(255) NOT NULL UNIQUE,
@@ -15,7 +15,7 @@ CREATE TABLE Users (
     CreatedAt       DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
 );
 
--- 2. HỒ SƠ CÁ NHÂN (gộp thông tin cơ bản + học vấn + tính cách/lối sống)
+2. HỒ SƠ CÁ NHÂN (gộp thông tin cơ bản + học vấn + tính cách/lối sống)
 CREATE TABLE UserProfiles (
     UserId              UNIQUEIDENTIFIER PRIMARY KEY
                         REFERENCES Users(UserId) ON DELETE CASCADE,
@@ -40,7 +40,7 @@ CREATE TABLE UserProfiles (
     UpdatedAt           DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
 );
 
--- 3. ẢNH HỒ SƠ
+3. ẢNH HỒ SƠ
 CREATE TABLE UserPhotos (
     PhotoId             UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
     UserId              UNIQUEIDENTIFIER NOT NULL
@@ -53,7 +53,7 @@ CREATE TABLE UserPhotos (
     UploadedAt          DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
 );
 
--- 4. BỘ LỌC TÌM KIẾM
+4. BỘ LỌC TÌM KIẾM
 CREATE TABLE SearchPreferences (
     UserId                  UNIQUEIDENTIFIER PRIMARY KEY
                             REFERENCES Users(UserId) ON DELETE CASCADE,
@@ -67,7 +67,7 @@ CREATE TABLE SearchPreferences (
     MaxDistanceKm           SMALLINT NOT NULL DEFAULT 50
 );
 
--- 5. TƯƠNG TÁC (LIKE / DISLIKE / SUPER LIKE)
+5. TƯƠNG TÁC (LIKE / DISLIKE / SUPER LIKE)
 CREATE TABLE Interactions (
     InteractionId       UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
     SenderId            UNIQUEIDENTIFIER NOT NULL REFERENCES Users(UserId) ON DELETE NO ACTION,
@@ -77,7 +77,7 @@ CREATE TABLE Interactions (
     CONSTRAINT UQ_Interaction UNIQUE (SenderId, ReceiverId)
 );
 
--- 6. GHÉP ĐÔI (MATCH)
+6. GHÉP ĐÔI (MATCH)
 CREATE TABLE Matches (
     MatchId              UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
     User1Id              UNIQUEIDENTIFIER NOT NULL REFERENCES Users(UserId) ON DELETE NO ACTION,
@@ -89,7 +89,7 @@ CREATE TABLE Matches (
     CONSTRAINT UQ_Match UNIQUE (User1Id, User2Id)
 );
 
--- 7. TIN NHẮN (gắn trực tiếp vào MatchId, không cần bảng Conversations)
+7. TIN NHẮN (gắn trực tiếp vào MatchId, không cần bảng Conversations)
 CREATE TABLE Messages (
     MessageId            UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
     MatchId              UNIQUEIDENTIFIER NOT NULL REFERENCES Matches(MatchId) ON DELETE CASCADE,
@@ -101,7 +101,7 @@ CREATE TABLE Messages (
     SentAt               DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
 );
 
--- 8. BÁO CÁO VI PHẠM
+8. BÁO CÁO VI PHẠM
 CREATE TABLE Reports (
     ReportId             UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
     ReporterId           UNIQUEIDENTIFIER NOT NULL REFERENCES Users(UserId) ON DELETE NO ACTION,
@@ -114,7 +114,7 @@ CREATE TABLE Reports (
     CreatedAt            DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
 );
 
-=-- 9. CHẶN NGƯỜI DÙNG
+9. CHẶN NGƯỜI DÙNG
 CREATE TABLE UserBlocks (
     BlockId              UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
     UserId               UNIQUEIDENTIFIER NOT NULL REFERENCES Users(UserId) ON DELETE NO ACTION,
@@ -124,7 +124,7 @@ CREATE TABLE UserBlocks (
     CONSTRAINT UQ_Block UNIQUE (UserId, BlockedUserId)
 );
 
--- 10. THÔNG BÁO
+10. THÔNG BÁO
 CREATE TABLE Notifications (
     NotificationId       UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
     UserId               UNIQUEIDENTIFIER NOT NULL REFERENCES Users(UserId) ON DELETE CASCADE,
@@ -135,7 +135,7 @@ CREATE TABLE Notifications (
     CreatedAt            DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
 );
 
--- 11. INDEX PHỤC VỤ HIỆU NĂNG
+11. INDEX PHỤC VỤ HIỆU NĂNG
 CREATE INDEX IX_Profiles_Location ON UserProfiles(CurrentLocation);
 CREATE INDEX IX_Profiles_DOB ON UserProfiles(DateOfBirth);
 CREATE INDEX IX_SearchPref_Gender ON SearchPreferences(PreferredGender);
