@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký tài khoản - Crusshy</title>
+    <!-- Câu lệnh liên kết tới file CSS bên ngoài -->
+    <link rel="stylesheet" href="dang_ky.css">
+</head>
+<body>
+    <div class="container">
+        <h1>ĐĂNG KÝ TÀI KHOẢN</h1>
+        <p>Bắt đầu hành trình kết nối</p>
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="fullName">Họ tên</label>
+                <input type="text" id="fullName" name="fullName" placeholder="Họ tên" required>
+            </div>
+            <div class="form-group">
+                <label for="studentEmail">Email sinh viên (.edu)</label>
+                <input type="email" id="studentEmail" name="studentEmail" placeholder="Email sinh viên (.edu)" required>
+            </div>
+            <div class="form-group">
+                <label for="school">Trường học</label>
+                <select id="school" name="school" required>
+                    <option value="">Chọn trường học...</option>
+                    <option value="bav">Học viện Ngân hàng</option>
+                    <option value="bku">Đại học Bách Khoa</option>
+                    <option value="neu">Đại học Kinh tế Quốc dân</option>
+                    <option value="ftu">Đại học Ngoại thương</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="password">Mật khẩu</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Xác nhận mật khẩu</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="terms" required>
+                <label for="terms">Tôi đồng ý với <a href="#">điều khoản sử dụng</a></label>
+            </div>
+            <button type="button" class="btn-google">
+                <img src="https://developers.google.com/static/identity/images/g-logo.png" alt="Google Logo" style="width:16px; margin-right:8px; vertical-align:middle;">
+                Đăng ký bằng Google
+            </button>
+            <button type="submit" class="btn-register">ĐĂNG KÝ NGAY</button>
+        </form>
+        <div class="footer-link">Đã có tài khoản? <a href="#">Đăng nhập tại đây</a></div>
+    </div>
+</body>
+</html>
