@@ -120,21 +120,3 @@ CREATE TABLE Notifications (
     IsRead               BIT NOT NULL DEFAULT 0,
     CreatedAt            DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
 );
-
-10. INDEX PHỤC VỤ HIỆU NĂNG
-CREATE INDEX IX_Profiles_Location ON UserProfiles(CurrentLocation);
-CREATE INDEX IX_Profiles_DOB ON UserProfiles(DateOfBirth);
-CREATE INDEX IX_SearchPref_Gender ON SearchPreferences(PreferredGender);
-CREATE INDEX IX_Interactions_Receiver ON Interactions(ReceiverId, InteractionType);
-CREATE INDEX IX_Matches_User1 ON Matches(User1Id);
-CREATE INDEX IX_Matches_User2 ON Matches(User2Id);
-CREATE INDEX IX_Messages_Match_Time ON Messages(MatchId, SentAt DESC);
-CREATE INDEX IX_Notifications_User_Unread ON Notifications(UserId, IsRead);
-
--- GHI CHÚ BẢO MẬT (áp dụng ở tầng ứng dụng)
--- - PasswordHash: băm bằng bcrypt/argon2 trước khi lưu, không lưu plaintext
--- - JWT token: không lưu trong DB, xử lý stateless ở tầng ứng dụng
---   (nếu cần thu hồi token, dùng cache Redis với TTL)
--- - OTP: nên lưu tạm ở Redis/cache với TTL thay vì bảng DB vĩnh viễn
--- - Toàn bộ kết nối tới SQL Server nên bật Encrypt=True (SSL/TLS)
--- - Áp dụng rate limiting tại tầng API Gateway, không ở tầng DB
