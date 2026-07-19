@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crusshy - Tìm Kiếm Đối Tượng</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            <span class="logo-icon"><i class="fa-solid fa-heart-crack"></i></span> CRUSSHY
+        </div>
+        <nav class="nav-links">
+            <a href="#" class="active"><i class="fa-solid fa-user-search"></i> Tìm bạn</a>
+            <a href="#"><i class="fa-solid fa-comment-dots"></i> Nhắn tin <span class="badge">3</span></a>
+            <a href="#"><i class="fa-solid fa-heart"></i> Danh sách Thích</a>
+            <a href="#"><i class="fa-solid fa-users"></i> Cộng đồng</a>
+            <a href="#"><i class="fa-solid fa-user-gear"></i> Hồ sơ</a>
+        </nav>
+        <div class="user-actions">
+            <div class="search-bar-top">
+                <input type="text" placeholder="Thư tịch...">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <i class="fa-regular fa-envelope nav-icon"></i>
+            <i class="fa-regular fa-bell nav-icon"></i>
+            <img src="https://via.placeholder.com/40" alt="Avatar" class="avatar-top">
+        </div>
+    </header>
+
+    <div class="main-container">
+        
+        <aside class="sidebar-filter">
+            <h3>BỘ LỌC TÌM KIẾM</h3>
+            
+            <div class="filter-group">
+                <label>Giới tính</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" checked> Nữ</label>
+                    <label><input type="checkbox"> Nam</label>
+                    <label><input type="checkbox"> Khác</label>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <label>Độ tuổi: <span id="age-val">21</span></label>
+                <input type="range" min="18" max="24" value="21" class="range-slider">
+                <div class="range-labels"><span>18</span><span>24</span></div>
+            </div>
+
+            <div class="filter-group">
+                <label>Trường học</label>
+                <select>
+                    <option>Đại học Bách Khoa Hà Nội</option>
+                    <option>Đại học Kinh tế Quốc dân</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Nơi sống</label>
+                <select>
+                    <option>Hà Nội</option>
+                    <option>TP. Hồ Chí Minh</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Sở thích</label>
+                <div class="tags">
+                    <span class="tag">#Đá_bóng</span>
+                    <span class="tag">#Code</span>
+                    <span class="tag active-tag">#Trà_sữa</span>
+                    <span class="tag">#Du_lịch</span>
+                    <span class="tag">#Nghệ_thuật</span>
+                    <span class="tag-add">+</span>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <label>Tính cách</label>
+                <div class="tags">
+                    <span class="tag">#Hài_hước</span>
+                    <span class="tag">#Tinh_tế</span>
+                    <span class="tag">#Hướng_nội</span>
+                </div>
+            </div>
+
+            <button class="btn-search-match"><i class="fa-solid fa-heart"></i> TÌM TRI KỶ CỦA BẠN</button>
+        </aside>
+
+        <main class="content-area">
+            <h2>TÌM KIẾM ĐỐI TƯỢNG</h2>
+            
+            <section class="profile-section">
+                <h4 class="section-title">GỢI Ý HỒ SƠ PHÙ HỢP</h4>
+                <div class="profile-grid">
+                    
+                    <div class="profile-card">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500" alt="User">
+                        <div class="profile-info">
+                            <h4>Lê Minh Thư, 20 <span class="school-tag">(HUST)</span></h4>
+                            <p><i class="fa-solid fa-graduation-cap"></i> Đại học Bách Khoa Hà Nội</p>
+                            <p><i class="fa-solid fa-book"></i> Công nghệ thông tin</p>
+                            <p class="desc">Tìm người đi thư viện chung hoặc đi trà sữa...</p>
+                            <div class="match-rate">88% <span>Trùng khớp</span></div>
+                            <div class="card-actions">
+                                <button class="action-btn like">3.2k Like</button>
+                                <button class="action-btn dislike">Dislike</button>
+                                <button class="action-btn super">S</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-card">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500" alt="User">
+                        <div class="profile-info">
+                            <h4>Tành Tuấn, 20 <span class="school-tag">(HUST)</span></h4>
+                            <p><i class="fa-solid fa-graduation-cap"></i> Đại học Bách Khoa Hà Nội</p>
+                            <p><i class="fa-solid fa-book"></i> Công nghệ thông tin</p>
+                            <p class="desc">Tìm người đi thư viện chung hoặc đi trà sữa...</p>
+                            <div class="match-rate">60% <span>Trùng khớp</span></div>
+                            <div class="card-actions">
+                                <button class="action-btn like">Like</button>
+                                <button class="action-btn dislike">Dislike</button>
+                                <button class="action-btn super">S</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="timeline-section">
+                <h4 class="section-title">Dòng thời gian cộng đồng</h4>
+                <div class="timeline-grid">
+                    
+                    <div class="post-card">
+                        <div class="post-header">
+                            <img src="https://via.placeholder.com/40" alt="HUST">
+                            <div>
+                                <h5>Đại học Bách Khoa Hà Nội</h5>
+                                <small>17 Mai 2022</small>
+                            </div>
+                        </div>
+                        <p class="post-content">Đại học Bách Khoa Hà Nội (HUST) là hân nhảy hèn, tơi 1825/2023 - 5th non nhám...</p>
+                        <div class="post-footer">
+                            <span><i class="fa-regular fa-heart"></i> 3.2k</span>
+                            <span><i class="fa-regular fa-comment"></i> Đăng tin</span>
+                        </div>
+                    </div>
+
+                    <div class="post-card">
+                        <div class="post-header">
+                            <img src="https://via.placeholder.com/40" alt="User">
+                            <div>
+                                <h5>Trần Quốc Tuấn (NEU)</h5>
+                                <small>17 Mai 2022</small>
+                            </div>
+                        </div>
+                        <p class="post-content">Ai đi ăn trưa khu Bách Khoa không?</p>
+                        <div class="post-footer">
+                            <span><i class="fa-regular fa-heart"></i> 3.2k</span>
+                            <span><i class="fa-regular fa-comment"></i> Đăng tin</span>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer class="bottom-bar">
+        <button><i class="fa-regular fa-circle-question"></i> Hỗ trợ</button>
+        <button><i class="fa-solid fa-gear"></i> Cài đặt</button>
+    </footer>
+
+</body>
+</html>
