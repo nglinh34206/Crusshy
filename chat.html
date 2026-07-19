@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crusshy - Nhắn tin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="chat.css">
+</head>
+<body class="bg-[#FDF6ED] text-[#4A3F35]">
+
+    <!-- Header -->
+    <header class="bg-[#EBE5DE] px-8 py-2 flex justify-between items-center sticky top-0 z-50 shadow-sm">
+        <div class="flex items-center gap-8">
+            <h1 class="text-2xl font-bold text-[#4A3F35] flex items-center cursor-pointer">
+                <i class="fa-solid fa-heart-pulse mr-2 text-teal-600"></i> CRUSSHY
+            </h1>
+            <nav class="hidden md:flex gap-4 text-sm font-semibold">
+                <button class="nav-item">Tìm bạn</button>
+                <button class="nav-item active">Nhắn tin (3)</button>
+                <button class="nav-item">Danh sách Thích</button>
+                <button class="nav-item">Cộng đồng</button>
+                <button class="nav-item">Hồ sơ</button>
+            </nav>
+        </div>
+        <div class="flex items-center gap-4">
+            <span class="text-xs font-bold">Thư ngỏ: <span class="bg-orange-200 px-2 rounded-full">0</span></span>
+            <i class="fa-regular fa-envelope text-lg"></i>
+            <i class="fa-regular fa-bell text-lg relative">
+                <span class="absolute -top-1 -right-1 bg-red-500 w-2 h-2 rounded-full"></span>
+            </i>
+            <img src="https://i.pravatar.cc/100?img=12" class="w-8 h-8 rounded-full border border-white">
+        </div>
+    </header>
+
+    <div class="flex h-[calc(100vh-56px)] overflow-hidden">
+        
+        <!-- Sidebar trái -->
+        <aside class="w-20 lg:w-64 p-4 border-r border-orange-100 hidden md:block">
+            <ul class="space-y-2">
+                <li class="side-item"><i class="fa-solid fa-users"></i> <span class="hidden lg:inline ml-3">Tìm bạn</span></li>
+                <li class="side-item active"><i class="fa-solid fa-comment"></i> <span class="hidden lg:inline ml-3">Nhắn tin</span> <span class="bg-red-500 text-white text-[10px] px-1.5 rounded-full ml-auto">3</span></li>
+                <li class="side-item"><i class="fa-solid fa-heart"></i> <span class="hidden lg:inline ml-3">Danh sách Thích</span></li>
+                <li class="side-item"><i class="fa-solid fa-earth-americas"></i> <span class="hidden lg:inline ml-3">Cộng đồng</span></li>
+                <li class="side-item"><i class="fa-solid fa-user"></i> <span class="hidden lg:inline ml-3">Hồ sơ</span></li>
+            </ul>
+        </aside>
+
+        <!-- Danh sách Chat -->
+        <section class="w-full md:w-80 flex flex-col border-r border-orange-100 bg-[#F9F3EC]">
+            <div class="p-4">
+                <h2 class="font-bold text-lg mb-4">DANH SÁCH CHAT</h2>
+                
+                <!-- Match mới -->
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-sm font-bold">Match mới</span>
+                        <div class="flex gap-2 text-gray-400 text-xs">
+                            <i class="fa-solid fa-chevron-left cursor-pointer"></i>
+                            <i class="fa-solid fa-chevron-right cursor-pointer"></i>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 overflow-x-auto no-scrollbar pb-2">
+                        <div class="text-center min-w-[60px]">
+                            <div class="w-14 h-14 rounded-full border-2 border-[#C5A880] p-0.5 mb-1">
+                                <img src="https://i.pravatar.cc/100?img=5" class="rounded-full">
+                            </div>
+                            <span class="text-xs font-bold">Nhi</span>
+                        </div>
+                        <div class="text-center min-w-[60px]">
+                            <div class="w-14 h-14 rounded-full border-2 border-[#C5A880] p-0.5 mb-1">
+                                <img src="https://i.pravatar.cc/100?img=9" class="rounded-full">
+                            </div>
+                            <span class="text-xs font-bold">Vy</span>
+                        </div>
+                        <div class="text-center min-w-[60px]">
+                            <div class="w-14 h-14 rounded-full border-2 border-[#C5A880] p-0.5 mb-1">
+                                <img src="https://i.pravatar.cc/100?img=10" class="rounded-full">
+                            </div>
+                            <span class="text-xs font-bold">Linh</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trò chuyện gần đây -->
+                <h3 class="text-sm font-bold mb-3">Trò chuyện gần đây</h3>
+                <div class="space-y-1">
+                    <div class="chat-user-item active">
+                        <img src="https://i.pravatar.cc/100?img=5" class="w-10 h-10 rounded-full">
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-bold truncate">Lê Minh Thư (HUST)</p>
+                            <p class="text-[11px] text-teal-600"><span class="w-2 h-2 bg-teal-500 rounded-full inline-block mr-1"></span>Đang hoạt động</p>
+                            <p class="text-[11px] text-gray-500 truncate">Tớ hay ngồi tự... (15:32)</p>
+                        </div>
+                    </div>
+                    <div class="chat-user-item">
+                        <img src="https://i.pravatar.cc/100?img=11" class="w-10 h-10 rounded-full">
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-bold truncate">Quốc Tuấn ko...</p>
+                            <p class="text-[11px] text-gray-400">08/07</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Khung Chat -->
+        <main class="flex-1 flex flex-col bg-transparent relative">
+            <!-- Background Icons Trang trí -->
+            <div class="absolute inset-0 opacity-[0.03] pointer-events-none grid grid-cols-4 p-20 gap-20">
+                <i class="fa-solid fa-graduation-cap text-8xl"></i>
+                <i class="fa-solid fa-atom text-8xl"></i>
+                <i class="fa-solid fa-paw text-8xl"></i>
+                <i class="fa-solid fa-book text-8xl"></i>
+            </div>
+
+            <!-- Header Chat -->
+            <div class="p-4 flex items-center justify-between border-b border-orange-100 bg-white/50 z-10">
+                <div class="flex items-center gap-3">
+                    <img src="https://i.pravatar.cc/100?img=5" class="w-10 h-10 rounded-full">
+                    <div>
+                        <h4 class="font-bold text-sm">Lê Minh Thư, 20 - Đại học Bách Khoa Hà Nội (HUST)</h4>
+                        <p class="text-[11px] text-teal-600 font-bold"><span class="w-2 h-2 bg-teal-500 rounded-full inline-block mr-1"></span> Đang hoạt động</p>
+                    </div>
+                </div>
+                <div class="flex gap-4 text-[#C5A880]">
+                    <i class="fa-solid fa-video text-xl cursor-pointer"></i>
+                    <i class="fa-solid fa-chevron-down text-lg cursor-pointer"></i>
+                </div>
+            </div>
+
+            <!-- Nội dung tin nhắn -->
+            <div class="flex-1 overflow-y-auto p-6 space-y-6 z-10">
+                <!-- Tin nhắn người kia -->
+                <div class="flex gap-3 max-w-[80%]">
+                    <img src="https://i.pravatar.cc/100?img=5" class="w-8 h-8 rounded-full mt-auto">
+                    <div class="bg-[#EBE5DE] p-4 rounded-[1.5rem] rounded-bl-none shadow-sm">
+                        <p class="text-sm">Cậu cũng học Công nghệ thông tin bên HUST à?</p>
+                        <span class="text-[10px] text-gray-500 mt-1 block">(15:30)</span>
+                    </div>
+                </div>
+
+                <!-- Tin nhắn của mình -->
+                <div class="flex flex-row-reverse gap-3 max-w-[80%] ml-auto">
+                    <div class="bg-white p-4 rounded-[1.5rem] rounded-br-none shadow-sm border border-orange-50">
+                        <p class="text-sm">Đúng rồi nè, mình học K67 Hệ thống thông tin quản lý. Cậu khóa nào thế?</p>
+                        <span class="text-[10px] text-gray-500 mt-1 block text-right">(15:31)</span>
+                    </div>
+                </div>
+
+                <!-- Tin nhắn người kia -->
+                <div class="flex gap-3 max-w-[80%]">
+                    <img src="https://i.pravatar.cc/100?img=5" class="w-8 h-8 rounded-full mt-auto">
+                    <div class="bg-[#EBE5DE] p-4 rounded-[1.5rem] rounded-bl-none shadow-sm">
+                        <p class="text-sm">Tiện ghê, tớ K68 nè. Hôm nào rủ nhau đi thư viện chung nhé, tớ hay ngồi tầng 3 Tạ Quang Bửu :D</p>
+                        <span class="text-[10px] text-gray-500 mt-1 block">(15:32)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ô nhập liệu -->
+            <div class="p-4 bg-transparent z-10">
+                <div class="flex items-center gap-3 bg-white p-2 rounded-full shadow-md border border-orange-50">
+                    <input type="text" placeholder="Message..." class="flex-1 bg-transparent px-4 outline-none text-sm">
+                    <i class="fa-regular fa-image text-gray-400 text-lg cursor-pointer"></i>
+                    <button class="bg-[#C5A880] text-white px-6 py-2 rounded-full font-bold text-sm shadow-lg hover:bg-[#B4966F] transition">Gửi</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>
